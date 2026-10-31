@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Welcome to Mario Club, your gaming community for games, news and entertainment.">
+
+    <title>Mario Club | Gaming Community</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <a href="index.html" class="logo">MARIO<span>CLUB</span></a>
+
+        <button class="menu-toggle" aria-label="Toggle navigation"
+            aria-expanded="false">
+            ☰
+        </button>
+
+        <nav class="main-nav">
+            <a href="#home">Home</a>
+            <a href="#games">Games</a>
+            <a href="#news">Gaming News</a>
+            <a href="#community">Community</a>
+            <a href="#join" class="nav-button">Join Club</a>
+            <a href="#profile">Player Profile</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+            <span class="hero-tag">WELCOME TO THE GAMING WORLD</span>
+
+            <h1>LEVEL UP YOUR <span>GAMING</span> EXPERIENCE</h1>
+
+            <p>
+                Discover exciting games, explore gaming news,
+                meet other players and become part of something bigger.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#games" class="primary-btn">Explore Games</a>
+                <a href="#join" class="secondary-btn">Join Community</a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- FEATURED GAMES -->
+<section class="section" id="games">
+
+    <div class="section-heading">
+        <span>DISCOVER</span>
+        <h2>Explore Our Games</h2>
+        <p>Find your next favourite gaming experience.</p>
+    </div>
+
+    <!-- GAME SEARCH -->
+    <div class="game-controls">
+        <input
+            type="search"
+            id="game-search"
+            placeholder="Search for a game..."
+            aria-label="Search games"
+        >
+
+        <div class="game-filters">
+            <button class="filter-btn active" data-category="all">All Games</button>
+            <button class="filter-btn" data-category="adventure">Adventure</button>
+            <button class="filter-btn" data-category="action">Action</button>
+            <button class="filter-btn" data-category="sports">Sports</button>
+        </div>
+    </div>
+
+    <!-- GAME COLLECTION -->
+    <div class="games-grid" id="games-grid">
+
+        <article class="game-card" data-category="adventure">
+            <img src="img/thumb-1.png" alt="Mario adventure game">
+            <div class="game-info">
+                <span class="game-category">ADVENTURE</span>
+                <h3>Mario Adventures</h3>
+                <p>Explore exciting worlds and complete challenges.</p>
+                <a href="games/racing.html">Play Now</a>S
+            </div>
+        </article>
+
+        <article class="game-card" data-category="action">
+            <img src="img/thumb-2.png" alt="Gaming adventure artwork">
+            <div class="game-info">
+                <span class="game-category">ACTION</span>
+                <h3>Gaming Universe</h3>
+                <p>Discover action-packed gaming experiences.</p>
+                <a href="#join">Discover Game</a>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="sports">
+            <div class="game-placeholder">⚽</div>
+            <div class="game-info">
+                <span class="game-category">SPORTS</span>
+                <h3>Football Arena</h3>
+                <p>Experience the excitement of competitive football.</p>
+                <a href="#join">Discover Game</a>
+            </div>
+        </article>
+
+        <article class="game-card" data-category="action">
+    <div class="game-placeholder">🏎️</div>
+
+    <div class="game-info">
+        <span class="game-category">RACING</span>
+
+        <h3>Racing Legends</h3>
+
+        <p>
+            Drive through challenging roads, avoid obstacles
+            and beat your highest score.
+        </p>
+
+        <div class="game-actions">
+            <a href="games/racing.html" class="play-btn">
+                Play Now
+            </a>
+
+            <button
+                class="details-btn"
+                data-game="racing">
+                Game Details
+            </button>
+        </div>
+    </div>
+</article>
+
+    </div>
+
+    <p id="no-games" class="no-games" hidden>
+        No games found. Try another search.
+    </p>
+
+</section>
+
+    <!-- NEWS SECTION -->
+    <section class="section news-section" id="news">
+
+        <div class="section-heading">
+            <span>STAY UPDATED</span>
+            <h2>Latest Gaming News</h2>
+            <p>Stay connected with the gaming world.</p>
+        </div>
+
+        <div class="news-card">
+            <div class="news-icon">📰</div>
+            <div>
+                <h3>Gaming News Coming Soon</h3>
+                <p>
+                    We're preparing exciting gaming updates,
+                    announcements and entertainment for our community.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- COMMUNITY SECTION -->
+    <section class="community-section" id="community">
+
+        <span>MORE THAN JUST GAMES</span>
+        <h2>Join the Mario Club Community</h2>
+
+        <p>
+            Meet fellow gamers, share your passion and
+            become part of our growing gaming family.
+        </p>
+
+        <a href="#join" class="primary-btn">Become a Member</a>
+
+    </section>
+    <section class="player-profile" id="profile">
+    <div class="section-heading">
+        <p class="eyebrow">YOUR GAMING IDENTITY</p>
+        <h2>Join the Players</h2>
+        <p>Create your Mario Club player profile.</p>
+    </div>
+
+    <div class="profile-box">
+        <div class="profile-avatar" id="profile-avatar">🎮</div>
+
+        <h3 id="profile-name">Guest Player</h3>
+        <p id="profile-status">Welcome to Mario Club!</p>
+
+        <form id="profile-form">
+            <input
+                type="text"
+                id="player-name"
+                placeholder="Enter your gaming name"
+                maxlength="20"
+                required
+            >
+
+            <select id="player-avatar">
+                <option value="🎮">🎮 Game Controller</option>
+                <option value="👑">👑 King</option>
+                <option value="🥷">🥷 Ninja</option>
+                <option value="🚀">🚀 Space Explorer</option>
+                <option value="🏎️">🏎️ Racer</option>
+                <option value="⚽">⚽ Footballer</option>
+            </select>
+
+            <button type="submit">Create My Profile</button>
+        </form>
+
+        <button id="delete-profile" class="delete-profile" type="button">
+            Remove Profile
+        </button>
+    </div>
+</section>
+
+    <!-- NEWSLETTER -->
+    <section class="join-section" id="join">
+
+        <h2>Join Mario Club Today!</h2>
+
+        <p>
+            Get updates about games, gaming news and
+            exciting community announcements.
+        </p>
+
+        <form id="newsletter-form">
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+            >
+
+            <button type="submit">Join Now</button>
+        </form>
+
+        <p id="form-message" aria-live="polite"></p>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+        <a href="#home" class="logo">MARIO<span>CLUB</span></a>
+
+        <p>Gaming brings us together.</p>
+
+        <p class="copyright">
+            © 2026 Mario Club. All rights reserved.
+        </p>
+
+    </footer>
+    <!-- GAME DETAILS POPUP -->
+
+<div class="modal" id="game-modal" aria-hidden="true">
+
+    <div class="modal-content">
+
+        <button class="modal-close" aria-label="Close">&times;</button>
+
+        <span class="game-category">ACTION / RACING</span>
+
+        <h2>Racing Legends</h2>
+
+        <p>
+            Take control of your racing car, avoid incoming vehicles
+            and challenge yourself to achieve the highest score.
+        </p>
+
+        <h3>How to play</h3>
+
+        <ul>
+            <li>Use the left arrow to move left.</li>
+            <li>Use the right arrow to move right.</li>
+            <li>Avoid other cars.</li>
+            <li>Earn points by surviving.</li>
+        </ul>
+
+        <a href="games/racing.html" class="play-btn">
+            Start Playing
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Racing Challenge | Mario Club</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #090d18;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .game-container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: #121a2b;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 20px auto;
+            background: #222;
+            border: 3px solid #3478ff;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 8px;
+            background: #ff3434;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #d92121;
+        }
+
+        a {
+            color: #6ca0ff;
+            text-decoration: none;
+        }
+
+        .instructions {
+            color: #aab4c7;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-container">
+
+        <h1>🏎️ Racing Challenge</h1>
+
+        <p>Welcome to your first Mario Club browser game!</p>
+
+        <h2>Score: <span id="score">0</span></h2>
+
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+        <div class="mobile-controls">
+            <button id="leftBtn">⬅️</button>
+            <button id="upBtn">⬆️</button>
+            <button id="downBtn">⬇️</button>
+            <button id="rightBtn">➡️</button>
+        </div>
+
+        <button id="startButton">Start Game</button>
+
+        <p class="instructions">
+            Use the LEFT and RIGHT arrow keys to control your car.
+            Avoid the obstacles and score as many points as possible.
+        </p>
+
+        <p><a href="../index.html">← Back to Mario Club</a></p>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const scoreDisplay = document.getElementById("score");
+        const startButton = document.getElementById("startButton");
+
+        let player = {
+            x: 275,
+            y: 320,
+            width: 50,
+            height: 65,
+            speed: 6
+        };
+
+        let obstacles = [];
+        let score = 0;
+        let running = false;
+        let animation;
+        let lastObstacle = 0;
+
+        const keys = {};
+
+        document.addEventListener("keydown", event => {
+            if (["ArrowLeft", "ArrowRight"].includes(event.key)) {
+                event.preventDefault();
+                keys[event.key] = true;
+            }
+        });
+        function mobileMove(buttonId, key) {
+    const button = document.getElementById(buttonId);
+
+    button.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        keys[key] = true;
+    });
+
+    button.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        keys[key] = false;
+    });
+
+    button.addEventListener("touchcancel", function() {
+        keys[key] = false;
+    });
+
+    button.addEventListener("mousedown", function() {
+        keys[key] = true;
+    });
+
+    button.addEventListener("mouseup", function() {
+        keys[key] = false;
+    });
+
+    button.addEventListener("mouseleave", function() {
+        keys[key] = false;
+    });
+}
+
+mobileMove("leftBtn", "ArrowLeft");
+mobileMove("rightBtn", "ArrowRight");
+mobileMove("upBtn", "ArrowUp");
+mobileMove("downBtn", "ArrowDown");
+
+        document.addEventListener("keyup", event => {
+            keys[event.key] = false;
+        });
+
+        function drawCar(x, y, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, 50, 65);
+
+            ctx.fillStyle = "#bde8ff";
+            ctx.fillRect(x + 10, y + 10, 30, 15);
+
+            ctx.fillStyle = "#111";
+            ctx.fillRect(x - 5, y + 10, 7, 18);
+            ctx.fillRect(x + 48, y + 10, 7, 18);
+            ctx.fillRect(x - 5, y + 42, 7, 18);
+            ctx.fillRect(x + 48, y + 42, 7, 18);
+        }
+
+        function drawRoad() {
+            ctx.fillStyle = "#333";
+            ctx.fillRect(100, 0, 400, 400);
+
+            ctx.fillStyle = "#fff";
+            for (let y = 0; y < 400; y += 80) {
+                ctx.fillRect(295, y, 10, 40);
+            }
+
+            ctx.fillStyle = "#269b48";
+            ctx.fillRect(0, 0, 100, 400);
+            ctx.fillRect(500, 0, 100, 400);
+        }
+
+        function createObstacle() {
+            obstacles.push({
+                x: 120 + Math.random() * 370,
+                y: -70,
+                width: 50,
+                height: 60,
+                speed: 4
+            });
+        }
+
+        function gameOver() {
+            running = false;
+            cancelAnimationFrame(animation);
+            startButton.textContent = "Play Again";
+
+            ctx.fillStyle = "rgba(0,0,0,0.8)";
+            ctx.fillRect(100, 130, 400, 130);
+
+            ctx.fillStyle = "white";
+            ctx.font = "bold 35px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("GAME OVER", 300, 190);
+
+            ctx.font = "20px Arial";
+            ctx.fillText("Score: " + score, 300, 225);
+        }
+
+        function update() {
+            if (!running) return;
+
+            drawRoad();
+
+            if (keys.ArrowLeft) {
+                player.x -= player.speed;
+            }
+
+            if (keys.ArrowRight) {
+                player.x += player.speed;
+            }
+
+            player.x = Math.max(105, Math.min(445, player.x));
+
+            if (Date.now() - lastObstacle > 1200) {
+                createObstacle();
+                lastObstacle = Date.now();
+            }
+
+            obstacles.forEach(obstacle => {
+                obstacle.y += obstacle.speed;
+
+                drawCar(obstacle.x, obstacle.y, "#ff3434");
+
+                if (
+                    player.x < obstacle.x + obstacle.width &&
+                    player.x + player.width > obstacle.x &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y
+                ) {
+                    gameOver();
+                }
+            });
+
+            obstacles = obstacles.filter(obstacle => {
+                if (obstacle.y > 400) {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    return false;
+                }
+                return true;
+            });
+
+            drawCar(player.x, player.y, "#3478ff");
+
+            if (running) {
+                animation = requestAnimationFrame(update);
+            }
+        }
+
+        function startGame() {
+            cancelAnimationFrame(animation);
+
+            score = 0;
+            obstacles = [];
+            player.x = 275;
+            running = true;
+            lastObstacle = Date.now();
+
+            scoreDisplay.textContent = score;
+            startButton.textContent = "Restart Game";
+
+            update();
+        }
+
+        startButton.addEventListener("click", startGame);
+
+        drawRoad();
+        drawCar(player.x, player.y, "#3478ff");
+    </script>
+
+</body>
+</html>
